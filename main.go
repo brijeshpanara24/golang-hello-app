@@ -7,6 +7,8 @@ import (
     "net/http"
     "os"
     "strings"
+    "time"
+    "math/rand"
 )
 
 const (
@@ -21,8 +23,14 @@ const (
     URL_ENV           = "URL"
 )
 
+var (
+    APP_INSTANCE_SUFFIX = ""
+)
+
 // Main function
 func main() {
+    APP_INSTANCE_SUFFIX = randomString(5)
+
     finish := make(chan bool)
 
     ports := getPorts()
@@ -75,7 +83,7 @@ func serverHandlerFunc(w http.ResponseWriter, r *http.Request) {
 
     appInstance, ok := os.LookupEnv(APP_INSTANCE_ENV)
     if ok {
-        str += fmt.Sprintf("App Instance: %s\n", appInstance)
+        str += fmt.Sprintf("App Instance: %s-%s\n", appInstance, APP_INSTANCE_SUFFIX)
     }
 
     url, ok := os.LookupEnv(URL_ENV)
@@ -104,4 +112,17 @@ func serverHandlerFunc(w http.ResponseWriter, r *http.Request) {
     }
 
     w.Write([]byte(str))
+}
+
+
+func randomString(n int) string {
+    letterRunes := []rune("abcdefghijklmnopqrstuvwxyz123456789")
+    
+    rand.Seed(time.Now().UnixNano())
+    
+    s := make([]rune, n)
+    for i := range s {
+        s[i] = letterRunes[rand.Intn(len(letterRunes))]
+    }
+    return string(s)
 }
