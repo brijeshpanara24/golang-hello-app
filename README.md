@@ -25,7 +25,7 @@ Setup:
 docker network create golang-hello-app-network
 ```
 
-Running:
+Run:
 ```
 docker run -it --rm --name golang-hello-app \
 	--network golang-hello-app-network \
