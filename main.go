@@ -73,7 +73,7 @@ func serverHandlerFunc(w http.ResponseWriter, r *http.Request) {
 		str += fmt.Sprintf("App Version: %s\n", appVersion)
 	}
 
-	appInstance, ok := os.LookupEnv(APP_INSTANCE)
+	appInstance, ok := os.LookupEnv(APP_INSTANCE_ENV)
 	if ok {
 		str += fmt.Sprintf("App Instance: %s\n", appInstance)
 	}
